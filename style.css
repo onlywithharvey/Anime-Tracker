@@ -1,0 +1,1051 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    overflow: hidden;
+}
+
+body {
+    background-color: linear-gradient(90deg, blue, green);
+    font-family: 'Rubik', sans-serif;
+    transition: background-color 1s ease, background-image 1s ease;
+    background-size: cover;
+    height: calc(100vh - 40px);
+    margin-left: 50px;
+    margin-top: 40px;
+    margin-right: 50px;
+}
+
+body.theme-morning {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), url('assets/Morning.jpg');
+    background-position: center;
+
+    #live-clock {
+        color: cyan;
+    }
+
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+
+body.theme-afternoon {
+    color: #ffffff;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), url('assets/Afternoonone.png');
+    background-position: center;
+}
+
+body.theme-evening {
+    background-image: url('assets/Night.jpg');
+
+    .notification-text {
+        color: #fff4d6;
+    }
+
+    color: #fff4d6;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.55);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #7dd3fc, #38bdf8);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    /* creates an inset "gap" look */
+    border-radius: 999px;
+}
+
+.tracker-list {
+    scrollbar-gutter: stable;
+}
+
+.tracker-list::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+.tracker-list:hover::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.top.bar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    padding: 1rem;
+    white-space: nowrap;
+}
+
+#greeting {
+    display: block;
+    position: relative;
+    justify-self: start;
+    min-width: 0;
+}
+
+.greeting-card {
+    display: none;
+    align-items: center;
+    margin-left: 0;
+    background-size: cover;
+    background-position: center;
+    font-family: 'Quantico', sans-serif;
+}
+
+.greeting-icon {
+    height: 40px;
+    width: 40px;
+    margin-bottom: -3px;
+}
+
+#morning {
+    color: white;
+    border-radius: 10px;
+}
+
+#morning.active {
+    display: block;
+}
+
+#afternoon {
+    color: black;
+    border-radius: 10px;
+}
+
+#afternoon.active {
+    display: block;
+}
+
+#evening {
+    color: rgba(255, 255, 0, 0.678);
+    border-radius: 10px;
+}
+
+#evening.active {
+    display: block;
+}
+
+.rhs {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+    max-width: 320px;
+    margin-top: 45px;
+    justify-self: end;
+}
+
+#notification-toggle {
+    display: flex;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
+    position: relative;
+    width: 210px;
+    align-items: center;
+    white-space: nowrap;
+    font-size: 16px;
+    font-family: inherit;
+    text-shadow: inherit;
+}
+
+.noti {
+    color: gold;
+    margin-right: 2px;
+}
+
+.notification-text {
+    margin-left: 0;
+}
+
+#notification-toggle .on,
+#notification-toggle .off {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    transition: transform 0.6s ease, opacity 0.4s ease;
+}
+
+#notification-toggle .on {
+    color: blue;
+    width: 2em;
+    height: 2em;
+}
+
+#notification-toggle .off {
+    color: grey;
+    width: 2em;
+    height: 2em;
+}
+
+#notification-toggle .off {
+    opacity: 1;
+    pointer-events: none;
+}
+
+#notification-toggle .on {
+    opacity: 0;
+}
+
+#notification-toggle.active .off {
+    opacity: 0;
+}
+
+#notification-toggle.active .on {
+    opacity: 1;
+}
+
+#live-clock {
+    font-size: 22px;
+    font-family: 'Quantico', sans-serif;
+    color: rgb(168, 168, 168);
+}
+
+.realDeal {
+    display: flex;
+    justify-content: flex-start;
+    gap: 30px;
+    margin-top: 10px;
+}
+
+.ask {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    padding: 10px 15px;
+    width: 380px;
+    height: fit-content;
+}
+
+.ask h4 {
+    margin-top: 8px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 4px;
+    width: 350px;
+    backdrop-filter: blur(10px);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-shadow: 10px 5px 30px 8px rgba(0, 0, 0, 0.23);
+    -webkit-box-shadow: 10px 5px 30px 8px rgba(0, 0, 0, 0.23);
+    -moz-box-shadow: 10px 5px 30px 8px rgba(0, 0, 0, 0.23);
+}
+
+.search-bar.active {
+    border: 1px solid rgb(250, 0, 0);
+}
+
+.warning {
+    display: none;
+    align-items: center;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.warning-text-a {
+    display: none;
+}
+
+.warning-text-b {
+    display: none;
+}
+
+.warning-text-c {
+    display: none;
+}
+
+.warning.not-found .warning-text {
+    display: none;
+}
+
+.warning.not-found .warning-text-a {
+    display: block;
+}
+
+.warning.duplicate .warning-text,
+.warning.duplicate .warning-text-a {
+    display: none;
+}
+
+.warning.duplicate .warning-text-b {
+    display: block;
+}
+
+.warning.not-airing .warning-text,
+.warning.not-airing .warning-text-a,
+.warning.not-airing .warning-text-b {
+    display: none;
+}
+
+.warning.not-airing .warning-text-c {
+    display: block;
+}
+
+@keyframes horizontal-shaking {
+    0% {
+        transform: translateX(0)
+    }
+
+    25% {
+        transform: translateX(5px)
+    }
+
+    50% {
+        transform: translateX(-5px)
+    }
+
+    75% {
+        transform: translateX(5px)
+    }
+
+    100% {
+        transform: translateX(0)
+    }
+}
+
+.warning svg {
+    height: 12px;
+    width: 12px;
+    margin-right: 5px;
+}
+
+.warning.active {
+    display: flex;
+    color: rgb(250, 0, 0);
+    animation: horizontal-shaking 0.5s ease 1;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tmdb-logo {
+    width: 30px;
+    height: auto;
+    display: block;
+    opacity: 0.3;
+}
+
+#animeName,
+#tvName,
+#mangaName {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #fff4d6;
+    font-size: 16px;
+    font-family: inherit;
+    text-shadow: inherit;
+    outline: none;
+    padding: 1px 3px;
+}
+
+#animeName::placeholder,
+#tvName::placeholder,
+#mangaName::placeholder {
+    font-style: italic;
+    font-size: 12px;
+}
+
+.dem {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 3px 5px;
+    color: #fff4d6;
+    display: flex;
+    white-space: nowrap;
+    gap: 5px;
+    font-weight: 300;
+    transition: background-color 0.2s ease;
+    opacity: 0.8;
+}
+
+#suggestions h6,
+#tv-suggestions h6,
+#manga-suggestions h6 {
+    letter-spacing: 1px;
+    opacity: 0.7;
+}
+
+#suggestionsText,
+#tvSuggestionsText,
+#mangaSuggestionsText {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.add {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 4px 5px;
+    color: #fff4d6;
+    display: flex;
+    white-space: nowrap;
+    gap: 3px;
+    margin: 5px;
+    font-size: 12px;
+    font-family: "Rubik", sans-serif;
+
+}
+
+.popular-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+}
+
+.popularText {
+    flex: 1;
+}
+
+.list h4::first-letter {
+    color: pink;
+    font-family: Rubik, sans-serif;
+}
+
+.list {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+}
+
+
+.list::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 90px;
+    pointer-events: none;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    mask-image: linear-gradient(to bottom, transparent, black 70%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 70%);
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    overflow-y: auto;
+    height: calc(100vh - 220px);
+    align-content: start;
+
+}
+
+.anime-card,
+.tv-card {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-height: 150px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    -moz-backdrop-filter: blur(5px);
+    box-shadow: -6px 3px 26px 4px rgba(140, 185, 255, 0.75) inset;
+    -webkit-box-shadow: -6px 3px 26px 4px rgba(140, 185, 255, 0.75) inset;
+    -moz-box-shadow: -6px 3px 26px 4px rgba(140, 185, 255, 0.75) inset;
+}
+
+.card-top img {
+    width: 100px;
+    height: 130px;
+    object-fit: fill;
+    border-radius: 8px;
+    margin: -3px;
+}
+
+.card-top {
+    display: flex;
+    flex: 1;
+    gap: 10px;
+}
+
+.card-top h3 {
+    letter-spacing: 1px;
+}
+
+.countdown-container {
+    display: flex;
+    gap: 10px;
+}
+
+.anime-middle,
+.tv-middle {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.anime-info,
+.tv-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.anime-title,
+.tv-title {
+    display: flex;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.anime-badges,
+.tv-badges {
+    display: flex;
+    flex-shrink: 0;
+    gap: 10px;
+    align-items: center;
+}
+
+.badge {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    padding: 3px;
+    font-size: 12px;
+}
+
+.episode {
+    background-color: rgba(62, 163, 127, 0.55);
+    border: 1px solid #3ea37f;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: rgb(250, 0, 0);
+    margin-left: 10px;
+}
+
+.delete-btn:hover {
+    background-color: rgba(250, 0, 0, 0.1);
+    box-shadow: 0px 0px 35px -1px rgb(250, 0, 96);
+    -webkit-box-shadow: 0px 0px 35px -1px rgba(250, 0, 0, 1);
+    -moz-box-shadow: 0px 0px 35px -1px rgba(250, 0, 0, 1);
+    border-radius: 50px;
+}
+
+.countdown-container {
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.time-block {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.time-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    border: 1px solid rgba(164, 196, 252, 0.904);
+    border-radius: 5px;
+    background-color: rgba(6, 166, 230, 0.55);
+    color: #f5f8ff;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.3px;
+    text-shadow: 2px 2px 4px rgb(0, 131, 70);
+}
+
+.time-colon {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    height: 30px;
+}
+
+.time-colon {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.3px;
+}
+
+.time-label {
+    font-size: 12px;
+    text-align: center;
+    color: rgba(164, 196, 252, 0.99);
+    text-shadow: 2px 2px 4px rgb(1, 199, 107);
+}
+
+.category {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    padding: 3px;
+    font-size: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: center;
+    gap: 0;
+    margin: 0 auto;
+    backdrop-filter: blur(10px);
+    justify-self: center;
+    font-family: "Rubik", sans-serif;
+    position: relative;
+    width: 310px;
+}
+
+.category input[type="radio"] {
+    display: none;
+}
+
+.switch {
+    background: none;
+    border: none;
+    color: #fff4d6;
+    cursor: pointer;
+    font-size: 15px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    font-family: inherit;
+    border-radius: 20px;
+    padding: 6px 0;
+    position: relative;
+    transition: color 0.3s ease;
+    z-index: 3;
+    width: 100%;
+    min-width: 0;
+}
+
+.switch:hover {
+    color: #fff;
+}
+
+.pill-indicator {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: calc((100% - 6px) / 3);
+    height: calc(100% - 6px);
+    background: rgba(255, 255, 255, 0.822);
+    border-radius: 20px;
+    z-index: 2;
+    /* Smooth CSS physics handles the slide */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+
+#tab-anime:checked~.pill-indicator {
+    transform: translateX(0%);
+}
+
+#tab-tv:checked~.pill-indicator {
+    transform: translateX(100%);
+}
+
+#tab-manga:checked~.pill-indicator {
+    transform: translateX(200%);
+}
+
+#tab-anime:checked~label[for="tab-anime"],
+#tab-tv:checked~label[for="tab-tv"],
+#tab-manga:checked~label[for="tab-manga"] {
+    color: #000000;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    background-image: radial-gradient(circle farthest-corner at center, #3C4B57 0%, #1C262B 100%);
+}
+
+.page-loader {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, rgba(10, 16, 22, 0.45) 30%, rgba(0, 119, 216, 0.45) 60%, rgba(216, 14, 0, 0.45)  100%);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    z-index: 9999;
+    transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+.page-loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    perspective: 800px;
+}
+
+.inner {
+    position: absolute;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.inner.one {
+    left: 0%;
+    top: 0%;
+    animation: rotate-one 1s linear infinite;
+    border-bottom: 3px solid #EFEFFA;
+}
+
+.inner.two {
+    right: 0%;
+    top: 0%;
+    animation: rotate-two 1s linear infinite;
+    border-right: 3px solid #EFEFFA;
+}
+
+.inner.three {
+    right: 0%;
+    bottom: 0%;
+    animation: rotate-three 1s linear infinite;
+    border-top: 3px solid #EFEFFA;
+}
+
+.inner.four {
+    margin-top: 90px;
+}
+
+@keyframes rotate-one {
+    0% {
+        transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+    }
+
+    100% {
+        transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+    }
+}
+
+@keyframes rotate-two {
+    0% {
+        transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+    }
+
+    100% {
+        transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+    }
+}
+
+@keyframes rotate-three {
+    0% {
+        transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+    }
+
+    100% {
+        transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+    }
+}
+
+
+@media (max-width: 868px) {
+    body {
+        margin: 5px;
+        height: 100vh;
+        height: 100lvh;
+        overflow: auto !important;
+    }
+
+    body.theme-morning,
+    body.theme-afternoon,
+    body.theme-evening {
+        background-position: center;
+        background-size: cover;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+    }
+
+    .top.bar {
+        display: grid;
+        grid-template-columns: 36px minmax(0, 1fr) 36px;
+        grid-template-rows: auto auto;
+        gap: 12px 8px;
+    }
+
+    .category {
+        grid-column: 2;
+        grid-row: 1;
+        width: min(310px, 100%);
+        justify-self: center;
+        position: fixed;
+        z-index: 1000;
+        margin-top: -95px;
+        margin-right: 21px;
+    }
+
+    .switch {
+        font-size: 14px;
+        gap: 3px;
+    }
+
+    #greeting {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        align-self: flex-start;
+        justify-self: start;
+    }
+
+    .rhs {
+        grid-column: 3;
+        grid-row: 1;
+        position: static;
+        margin-top: 0;
+        gap: 0;
+        justify-self: end;
+        align-self: center;
+    }
+
+    #notification-toggle {
+        width: 36px;
+        height: 36px;
+        justify-content: center;
+        margin-right: -15px;
+    }
+
+    .noti {
+        width: 20px;
+        height: 20px;
+        margin: 0;
+    }
+
+    .notification-text {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    #live-clock,
+    #notification-toggle .on,
+    #notification-toggle .off {
+        display: none;
+    }
+
+    #notification-toggle.active .noti {
+        color: #85f838;
+    }
+
+    .realDeal {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .ask {
+        width: auto;
+        margin-left: 7px;
+        margin-right: 7px;
+    }
+
+    .search-bar {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    #animeName,
+    #tvName,
+    #mangaName {
+        width: auto;
+        min-width: 0;
+    }
+
+    .list {
+        width: auto;
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .list::after {
+        display: none;
+    }
+
+    .content {
+        margin-left: -15px;
+        width: calc(100% + 11px);
+        padding-right: 0;
+        height: auto;
+        min-height: 0;
+        flex: 1;
+    }
+
+    .anime-card,
+    .tv-card {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        height: 190px;
+        max-height: none;
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .card-top img {
+        display: block;
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 1;
+        filter: brightness(0.75);
+        transform: none;
+        z-index: 0;
+        pointer-events: none;
+        -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 65%, transparent 100%);
+        mask-image: linear-gradient(to bottom, #000 0%, #000 65%, transparent 100%);
+        margin: 0;
+    }
+
+    .card-top {
+        width: 100%;
+    }
+
+    .anime-middle,
+    .tv-middle {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .anime-title,
+    .tv-title {
+        font-size: 18px;
+        color: #fff4d6;
+    }
+
+    .anime-info,
+    .tv-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .anime-badges,
+    .tv-badges {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .badge.episode,
+    .badge.format,
+    .badge.resolution {
+        font-size: 14px;
+    }
+
+    .badge.episode {
+        color: #fff4d6;
+    }
+
+    .delete-btn svg {
+        height: 1.5em;
+        width: 1.5em;
+    }
+
+    .countdown-container {
+        align-self: center;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 900px) and (orientation: portrait) {
+
+    /* tablet portrait styles */
+    .anime-card,
+    .tv-card {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        height: 175px;
+    }
+
+    .card-top img {
+        width: auto;
+        height: 100%;
+        object-fit: fill;
+        border-radius: 8px;
+        margin: 3px;
+    }
+
+    .anime-middle,
+    .tv-middle {
+        display: flex;
+        margin-left: 130px;
+    }
+}

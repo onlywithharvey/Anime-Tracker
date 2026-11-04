@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+    <link rel="icon" href="assets/icon.png">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <div id="page-loader" class="page-loader" aria-live="polite" aria-label="Loading website">
+        <div class="loader" aria-hidden="true">
+            <div class="inner one"></div>
+            <div class="inner two"></div>
+            <div class="inner three"></div>
+            <div class="inner four">Loading...</div>
+        </div>
+    </div>
+
+    <div class="top bar">
+        <div id="greeting">
+            <div id="morning" class="greeting-card">
+                <svg class="greeting-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                    viewBox="0 0 512 512">
+                    <path d="M0 0h512v512H0z" fill="none" />
+                    <defs>
+                        <symbol id="SVGnoI23bPp" viewBox="0 0 196 196">
+                            <circle cx="98" cy="98" r="40" fill="url(#SVG9IEgDxri)" stroke="#f8af18"
+                                stroke-miterlimit="10" stroke-width="4" />
+                            <path fill="none" stroke="#fbbf24" stroke-linecap="round" stroke-miterlimit="10"
+                                stroke-width="12"
+                                d="M98 31.4V6m0 184v-25.4M145.1 51l18-17.9M33 163l18-17.9M51 51L33 33m130.1 130.1l-18-18M6 98h25.4M190 98h-25.4"
+                                transform="rotate(45 98 98)" />
+                        </symbol>
+                        <symbol id="SVGMnBDAb4I" viewBox="0 0 350 222">
+                            <path fill="url(#SVGMeEfudbH)" stroke="#e6effc" stroke-miterlimit="10" stroke-width="6"
+                                d="m291 107l-2.5.1A83.9 83.9 0 0 0 135.6 43A56 56 0 0 0 51 91a56.6 56.6 0 0 0 .8 9A60 60 0 0 0 63 219l4-.2v.2h224a56 56 0 0 0 0-112Z" />
+                        </symbol>
+                        <symbol id="SVGpSsklbqg" viewBox="0 0 363 258">
+                            <use width="196" height="196" href="#SVGnoI23bPp" />
+                            <use width="350" height="222" href="#SVGMnBDAb4I" transform="translate(13 36)" />
+                        </symbol>
+                        <symbol id="SVG2WpUGeiB" viewBox="0 0 168 212">
+                            <circle cx="86" cy="186" r="36" fill="url(#SVGt1B95cPJ)" stroke="#afb4bc"
+                                stroke-miterlimit="10" stroke-width="4" opacity="0" transform="translate(-58 -118)" />
+                            <circle cx="86" cy="186" r="36" fill="url(#SVGt1B95cPJ)" stroke="#afb4bc"
+                                stroke-miterlimit="10" stroke-width="4" opacity="0" transform="translate(58 -118)" />
+                            <circle cx="86" cy="186" r="36" fill="url(#SVGt1B95cPJ)" stroke="#afb4bc"
+                                stroke-miterlimit="10" stroke-width="4" opacity="0" transform="translate(0 -118)" />
+                        </symbol>
+                        <linearGradient id="SVGMeEfudbH" x1="99.5" x2="232.6" y1="30.7" y2="261.4"
+                            gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#f3f7fe" />
+                            <stop offset=".5" stop-color="#f3f7fe" />
+                            <stop offset="1" stop-color="#deeafb" />
+                        </linearGradient>
+                        <linearGradient id="SVGt1B95cPJ" x1="74" x2="98" y1="165.2" y2="206.8"
+                            gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#b8bdc6" />
+                            <stop offset=".5" stop-color="#b8bdc6" />
+                            <stop offset="1" stop-color="#a5aab2" />
+                        </linearGradient>
+                        <linearGradient id="SVG9IEgDxri" x1="78" x2="118" y1="63.4" y2="132.7"
+                            gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#fbbf24" />
+                            <stop offset=".5" stop-color="#fbbf24" />
+                            <stop offset="1" stop-color="#f59e0b" />
+                        </linearGradient>
+                    </defs>
+                    <use width="363" height="258" href="#SVGpSsklbqg" transform="translate(68 109)" />
+                    <use width="168" height="212" href="#SVG2WpUGeiB" transform="translate(172 232)" />
+                </svg>
+                <h2>Good Morning!</h2>
+            </div>
+            <div id="afternoon" class="greeting-card">
+                <svg class="greeting-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                    viewBox="0 0 80 80">
+                    <path d="M0 0h80v80H0z" fill="none" />
+                    <g fill="none">
+                        <path fill="#f2c94c" fill-rule="evenodd"
+                            d="M34.63 10a2 2 0 0 1 2 1.994l.023 7.648c.004 1.084-.94 1.922-2.023 1.922c-1.085 0-2.028-.838-2.024-1.922l.024-7.648a2 2 0 0 1 2-1.994M23.794 25.085c.877-.637 1.147-1.87.507-2.744l-4.515-6.174a2 2 0 0 0-3.236 2.351l4.476 6.202c.635.879 1.89 1.003 2.768.365m-6.697 9.218c.335-1.031-.171-2.187-1.203-2.519l-7.282-2.34a2 2 0 0 0-1.236 3.804l7.267 2.386c1.03.338 2.119-.3 2.454-1.33m0 11.394c-.335-1.031-1.424-1.67-2.454-1.33l-7.255 2.381l-.012.004a2 2 0 0 0 1.236 3.804l.012-.003l7.27-2.337c1.032-.332 1.538-1.488 1.203-2.52m6.697 9.218c-.878-.638-2.133-.514-2.768.365l-4.469 6.192l-.007.01a2 2 0 0 0 3.236 2.351l.007-.01l4.508-6.164c.64-.875.37-2.107-.507-2.744m10.836 3.52c-1.085 0-2.028.839-2.024 1.923l.024 7.636v.012a2 2 0 0 0 4 0v-.012l.023-7.636c.004-1.084-.94-1.922-2.023-1.922m10.784-3.48c-.836.647-1.082 1.847-.455 2.705l4.507 6.163l.007.01a2 2 0 0 0 3.236-2.351l-.007-.01l-3.957-5.483a7.16 7.16 0 0 1-3.331-1.034m-3.362-5.159a12.29 12.29 0 1 1 4.645-7.463a7.1 7.1 0 0 0-2.56 1.608l-.047.046a6.95 6.95 0 0 0-2.038 5.81m18.324-16.053A9.05 9.05 0 0 0 56.8 33h-.083a8.9 8.9 0 0 0-4.565 1.264c-.31-1.02.195-2.152 1.214-2.48l7.27-2.337l.011-.003a2 2 0 0 1 1.236 3.804l-.012.004zm-14.91-8.658c.877.637 2.133.513 2.767-.366l4.469-6.19l.007-.011a2 2 0 0 0-3.236-2.351l-.007.01l-4.507 6.163c-.64.875-.37 2.108.507 2.745"
+                            clip-rule="evenodd" />
+                        <path fill="#2f80ed" stroke="#2f80ed" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="4"
+                            d="M56.8 33c2.358 0 4.651.943 6.354 2.597c1.703 1.656 2.698 3.925 2.736 6.278l.002.102a7.14 7.14 0 0 1 3.97 1.963l.047.046A6.95 6.95 0 0 1 72 48.951a6.95 6.95 0 0 1-2.09 4.964l-.048.047a7.15 7.15 0 0 1-5 2.037H52.304l-.038.001h-3.128a7.15 7.15 0 0 1-5-2.037l-.047-.047A6.95 6.95 0 0 1 42 48.952c0-1.868.753-3.657 2.09-4.965l.048-.046a7.15 7.15 0 0 1 3.777-1.932l-.002-.134a8.7 8.7 0 0 1 2.534-6.278A8.87 8.87 0 0 1 56.717 33z" />
+                    </g>
+                </svg>
+                <h2>Good Afternoon!</h2>
+            </div>
+            <div id="evening" class="greeting-card">
+                <svg class="greeting-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                    viewBox="0 0 64 64">
+                    <path d="M0 0h64v64H0z" fill="none" />
+                    <path fill="#ffce31"
+                        d="M43.1 2c3.2 4.8 5.1 10.6 5.1 16.8C48.3 35.5 34.6 49 17.7 49C12 49 6.6 47.4 2 44.7C7.2 55 17.9 62 30.3 62C47.8 62 62 48 62 30.7C62 17.9 54.2 6.9 43.1 2" />
+                </svg>
+                <h2>Good Evening!</h2>
+            </div>
+        </div>
+
+        <nav class="category">
+            <!-- Radio inputs handle the true state -->
+            <input type="radio" id="tab-anime" name="category-toggle" value="anime" checked>
+            <label for="tab-anime" class="switch">
+                <!-- Your Anime SVG here -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-origami preview-icon">
+                    <path d="M12 12V4a1 1 0 0 1 1-1h6.297a1 1 0 0 1 .651 1.759l-4.696 4.025" />
+                    <path d="m12 21-7.414-7.414A2 2 0 0 1 4 12.172V6.415a1.002 1.002 0 0 1 1.707-.707L20 20.009" />
+                    <path
+                        d="m12.214 3.381 8.414 14.966a1 1 0 0 1-.167 1.199l-1.168 1.163a1 1 0 0 1-.706.291H6.351a1 1 0 0 1-.625-.219L3.25 18.8a1 1 0 0 1 .631-1.781l4.165.027" />
+                </svg>
+                Anime
+            </label>
+
+            <input type="radio" id="tab-tv" name="category-toggle" value="tv">
+            <label for="tab-tv" class="switch">
+                <!-- Your TV Shows SVG here -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-tv-minimal-play preview-icon">
+                    <path
+                        d="M15.033 9.44a.647.647 0 0 1 0 1.12l-4.065 2.352a.645.645 0 0 1-.968-.56V7.648a.645.645 0 0 1 .967-.56z" />
+                    <path d="M7 21h10" />
+                    <rect width="20" height="14" x="2" y="3" rx="2" />
+                </svg>
+                TV Shows
+            </label>
+
+            <input type="radio" id="tab-manga" name="category-toggle" value="manga">
+            <label for="tab-manga" class="switch">
+                <!-- Manga icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-book-plus preview-icon">
+                    <path d="M12 7v6" />
+                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" />
+                    <path d="M9 10h6" />
+                </svg>
+                Manga
+            </label>
+
+            <!-- The physical sliding pill -->
+            <div class="pill-indicator"></div>
+        </nav>
+
+
+
+
+        <div class="rhs">
+
+            <button id="notification-toggle">
+                <svg class="noti" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512">
+                    <path d="M0 0h512v512H0z" fill="none" />
+                    <path fill="currentColor"
+                        d="M256 480a80.09 80.09 0 0 0 73.3-48H182.7a80.09 80.09 0 0 0 73.3 48m144-192v-60.53C400 157 372.64 95.61 304 80l-8-48h-80l-8 48c-68.88 15.61-96 76.76-96 147.47V288l-48 64v48h384v-48Z" />
+                </svg>
+
+                <span class="notification-text">Enable Notifications</span>
+
+                <svg class="off" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path fill="currentColor" fill-rule="evenodd"
+                        d="M7 7a5 5 0 0 0 0 10h10a5 5 0 0 0 0-10zm0 2.5a2.5 2.5 0 1 0 0 5a2.5 2.5 0 0 0 0-5"
+                        clip-rule="evenodd" />
+                </svg>
+
+                <svg class="on" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path fill="currentColor" fill-rule="evenodd"
+                        d="M7 7a5 5 0 0 0 0 10h10a5 5 0 0 0 0-10zm10 2.5a2.5 2.5 0 1 0 0 5a2.5 2.5 0 0 0 0-5"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div id="live-clock"></div>
+        </div>
+    </div>
+
+    <div class="realDeal" id="anime-page">
+        <div class="ask">
+            <h4>Add Anime</h4>
+            <div class="search-bar" id="searchBar">
+                <input type="search" placeholder="Anime" id="animeName">
+                <button id="anime-submit" class="dem">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024">
+                        <path d="M0 0h1024v1024H0z" fill="none" />
+                        <path fill="currentColor"
+                            d="M909.6 854.5L649.9 594.8C690.2 542.7 712 479 712 412c0-80.2-31.3-155.4-87.9-212.1S492.1 112 412 112s-155.5 31.3-212.1 87.9C143.2 256.5 112 331.8 112 412c0 80.1 31.3 155.5 87.9 212.1C256.5 680.8 331.8 712 412 712c67 0 130.6-21.8 182.7-62l259.7 259.6a8.2 8.2 0 0 0 11.6 0l43.6-43.5a8.2 8.2 0 0 0 0-11.6M570.4 570.4C528 612.7 471.8 636 412 636s-116-23.3-158.4-65.6C211.3 528 188 471.8 188 412s23.3-116.1 65.6-158.4C296 211.3 352.2 188 412 188s116.1 23.2 158.4 65.6S636 352.2 636 412s-23.3 116.1-65.6 158.4" />
+                    </svg>
+                    Add to Tracker
+                </button>
+            </div>
+            <div class="warning" id="warning">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+                    <path d="M0 0h16v16H0z" fill="none" />
+                    <path fill="currentColor"
+                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2a1 1 0 0 0 0-2" />
+                </svg>
+                <div class="warning-text">Search cannot be blank</div>
+                <div class="warning-text-a">Anime not found. Try a different name.</div>
+                <div class="warning-text-b">This anime is already in your list.</div>
+                <div class="warning-text-c">This anime is no longer airing, so it can't be added to your tracker.
+                </div>
+            </div>
+            <div class="suggestions" id="suggestions">
+                <h6>Popular Anime Searches</h6>
+                <div id="suggestionsText"></div>
+            </div>
+        </div>
+
+        <div class="list" id="list">
+            <h4>Currently Tracked Anime</h4>
+            <div class="content" id="listContent">
+            </div>
+        </div>
+    </div>
+
+    <!-- TV SHOWS PAGE -->
+    <div class="realDeal" id="tvshows-page" hidden>
+
+        <div class="ask">
+            <h4>Add TV Show</h4>
+
+            <div class="search-bar" id="tvSearchBar">
+                <input type="search" placeholder="TV Show" id="tvName">
+
+                <button id="tv-submit" class="dem">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024">
+                        <path d="M0 0h1024v1024H0z" fill="none" />
+                        <path fill="currentColor"
+                            d="M909.6 854.5L649.9 594.8C690.2 542.7 712 479 712 412c0-80.2-31.3-155.4-87.9-212.1S492.1 112 412 112s-155.5 31.3-212.1 87.9C143.2 256.5 112 331.8 112 412c0 80.1 31.3 155.5 87.9 212.1C256.5 680.8 331.8 712 412 712c67 0 130.6-21.8 182.7-62l259.7 259.6a8.2 8.2 0 0 0 11.6 0l43.6-43.5a8.2 8.2 0 0 0 0-11.6M570.4 570.4C528 612.7 471.8 636 412 636s-116-23.3-158.4-65.6C211.3 528 188 471.8 188 412s23.3-116.1 65.6-158.4C296 211.3 352.2 188 412 188s116.1 23.2 158.4 65.6S636 352.2 636 412s-23.3 116.1-65.6 158.4" />
+                    </svg>
+                    Add to Tracker
+                </button>
+            </div>
+
+            <div class="warning" id="tvWarning" role="status" aria-live="polite">
+                <span class="warning-text"></span>
+            </div>
+
+            <div class="suggestions" id="tv-suggestions">
+                <div class="container">
+                    <h6>Popular TV Searches</h6>
+                    <img src="assets/tmdb.svg" alt="TMDB Logo" class="tmdb-logo">
+                </div>
+                <div id="tvSuggestionsText"></div>
+
+            </div>
+        </div>
+        <div class="list">
+            <h4>Currently Tracked TV Shows</h4>
+
+            <div class="content" id="tvListContent">
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MANGA PAGE -->
+    <div class="realDeal" id="manga-page" hidden>
+
+        <div class="ask">
+            <h4>Add Manga</h4>
+
+            <div class="search-bar" id="mangaSearchBar">
+                <input type="search" placeholder="Manga" id="mangaName">
+
+                <button id="manga-submit" class="dem">
+                    Add to Tracker
+                </button>
+            </div>
+
+            <div class="warning" id="mangaWarning" role="status" aria-live="polite">
+                <span class="warning-text"></span>
+            </div>
+
+            <div class="suggestions" id="manga-suggestions">
+                <h6>Popular Manga Searches</h6>
+                <div id="mangaSuggestionsText"></div>
+            </div>
+        </div>
+
+        <div class="list" id="manga-list">
+            <h4>Currently Tracked Manga</h4>
+            <div class="content" id="mangaListContent"></div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
