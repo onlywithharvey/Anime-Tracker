@@ -824,6 +824,10 @@ body {
         background-repeat: no-repeat;
     }
 
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
     .top.bar {
         display: grid;
         grid-template-columns: 36px minmax(0, 1fr) 36px;
