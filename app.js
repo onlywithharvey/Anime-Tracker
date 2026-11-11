@@ -8,6 +8,7 @@ const SEARCH_QUERY = `
         title {
             romaji
             english
+                status
         }
         coverImage {
             large
@@ -272,7 +273,11 @@ function createAnimeCard(anime) {
 
     // Next episode info (may be null if anime is finished)
     const next = anime.nextAiringEpisode;
-    const episodeText = next ? `Next: Ep ${next.episode}` : "No upcoming ep";
+    const episodeText = next
+        ? `Next: Ep ${next.episode}`
+        : anime.status === "RELEASING"
+            ? "Waiting for schedule"
+            : "No upcoming ep";
     const airingAt = next ? next.airingAt : null;
 
     // First countdown values
@@ -288,6 +293,10 @@ function createAnimeCard(anime) {
     const card = document.createElement("div");
     card.className = "anime-card";
     card.dataset.id = anime.id;
+    card.dataset.status = anime.status || "";
+    if (!airingAt && anime.status === "RELEASING") {
+        card.dataset.awaitingSchedule = "true";
+    }
 
     // Store the airing time so we can update the countdown later
     if (airingAt) {
@@ -360,13 +369,15 @@ function updateAllCountdowns() {
                 const title = titleEl ? titleEl.textContent : "Anime";
                 const ep = epEl ? epEl.textContent : "New episode";
 
-                // Use your notify function if you have it, else alert
-                if (typeof notifyEpisode === "function") {
-                    notifyEpisode(title, ep);
-                } else {
-                    alert(title + " — " + ep);
-                }
-
+                notifyEpisode(title, ep);
+                card.dataset.awaitingSchedule = "true";
+                card.removeAttribute("data-airing-at");
+                if (epEl) epEl.textContent = "Waiting for schedule";
+                daysEl.textContent = "--";
+                hoursEl.textContent = "--";
+                minsEl.textContent = "--";
+                secsEl.textContent = "--";
+                saveData();
                 refreshCardFromApi(card);
             }
         } else {
@@ -380,10 +391,15 @@ function updateAllCountdowns() {
 // Run every second
 setInterval(updateAllCountdowns, 1000);
 
+const refreshingAnimeCards = new WeakSet();
+
 async function refreshCardFromApi(card) {
+    if (refreshingAnimeCards.has(card)) return;
+
     const id = Number(card.dataset.id);
     if (!id) return;
 
+    refreshingAnimeCards.add(card);
     try {
         const response = await fetch("https://graphql.anilist.co", {
             method: "POST",
@@ -399,17 +415,22 @@ async function refreshCardFromApi(card) {
         if (!anime) return;
 
         const next = anime.nextAiringEpisode;
+        card.dataset.status = anime.status || card.dataset.status || "";
         const episodeBadge = card.querySelector(".badge.episode");
         const daysEl = card.querySelector(".time-number.days");
         const hoursEl = card.querySelector(".time-number.hours");
         const minsEl = card.querySelector(".time-number.mins");
         const secsEl = card.querySelector(".time-number.secs");
 
-        // No next episode
-        if (!next) {
-            if (episodeBadge) episodeBadge.textContent = "No upcoming ep";
+        const nextAiringAt = Number(next?.airingAt);
+        if (!next || !Number.isFinite(nextAiringAt) || nextAiringAt <= Math.floor(Date.now() / 1000)) {
             card.removeAttribute("data-airing-at");
-            card.dataset.notified = "true";
+            card.dataset.awaitingSchedule = anime.status === "RELEASING" ? "true" : "false";
+            if (episodeBadge) {
+                episodeBadge.textContent = card.dataset.awaitingSchedule === "true"
+                    ? "Waiting for schedule"
+                    : "No upcoming ep";
+            }
             if (daysEl) daysEl.textContent = "--";
             if (hoursEl) hoursEl.textContent = "--";
             if (minsEl) minsEl.textContent = "--";
@@ -423,10 +444,11 @@ async function refreshCardFromApi(card) {
             episodeBadge.textContent = "Next: Ep " + next.episode;
         }
 
-        card.dataset.airingAt = String(next.airingAt);
+        card.dataset.airingAt = String(nextAiringAt);
         card.dataset.notified = "false";
+        delete card.dataset.awaitingSchedule;
 
-        const parts = getCountdownParts(next.airingAt);
+        const parts = getCountdownParts(nextAiringAt);
         if (daysEl) daysEl.textContent = String(parts.days).padStart(2, "0") + "d";
         if (hoursEl) hoursEl.textContent = String(parts.hours).padStart(2, "0") + "h";
         if (minsEl) minsEl.textContent = String(parts.mins).padStart(2, "0") + "m";
@@ -435,8 +457,17 @@ async function refreshCardFromApi(card) {
         if (typeof saveData === "function") saveData();
     } catch (err) {
         console.error("Refresh failed", err);
+    } finally {
+        refreshingAnimeCards.delete(card);
     }
 };
+
+function refreshAwaitingAnimeSchedules() {
+    document.querySelectorAll('.anime-card[data-awaiting-schedule="true"]')
+        .forEach(card => refreshCardFromApi(card));
+}
+
+setInterval(refreshAwaitingAnimeSchedules, 5 * 60 * 1000);
 
 async function showAiringList() {
     const popularList = document.getElementById("suggestionsText");
@@ -522,6 +553,12 @@ function loadData() {
     const savedData = localStorage.getItem("data");
     if (savedData !== null) {
         listContent.innerHTML = savedData;
+        listContent.querySelectorAll(".anime-card:not([data-airing-at])").forEach(card => {
+            const episodeBadge = card.querySelector(".badge.episode");
+            if (episodeBadge?.textContent === "Waiting for schedule") {
+                card.dataset.awaitingSchedule = "true";
+            }
+        });
     }
 };
 
@@ -537,6 +574,7 @@ function notifyEpisode(title, episodeText) {
 };
 
 loadData();
+refreshAwaitingAnimeSchedules();
 showAiringList();
 
 const animeTab = document.getElementById("tab-anime");
