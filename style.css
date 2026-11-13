@@ -736,7 +736,7 @@ body {
     inset: 0;
     display: grid;
     place-items: center;
-    background: linear-gradient(135deg, rgba(10, 16, 22, 0.45) 30%, rgba(0, 119, 216, 0.45) 60%, rgba(216, 14, 0, 0.45) 100%);
+    background: linear-gradient(135deg, rgba(10, 16, 22, 0.45) 30%, rgba(0, 119, 216, 0.45) 60%, rgba(10, 16, 22, 0.45) 100%);
     backdrop-filter: blur(40px);
     -webkit-backdrop-filter: blur(40px);
     z-index: 9999;
