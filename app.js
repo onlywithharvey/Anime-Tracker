@@ -4,25 +4,24 @@ const API_URL = "https://graphql.anilist.co";
 const SEARCH_QUERY = `
     query ($search: String) {
         Media(search: $search, type: ANIME) {
-        id
-        title {
-            romaji
-            english
-                status
-        }
-        coverImage {
-            large
-        }
-        episodes
-        status
-        siteUrl
-        nextAiringEpisode {
-            episode
-            airingAt
-        }
+            id
+            title {
+                romaji
+                english
+            }
+            coverImage {
+                large
+            }
+            episodes
+            status
+            siteUrl
+            nextAiringEpisode {
+                episode
+                airingAt
+            }
         }
     }
-    `;
+`;
 
 const AIRING_QUERY = `
   query {
@@ -227,12 +226,16 @@ async function searchAnime(name) {
 
     const data = await response.json();
 
-    // If nothing was found
+    if (data.errors) {
+        console.error("AniList search error:", data.errors);
+        return null;
+    }
+
     if (!data.data || !data.data.Media) {
         return null;
     }
 
-    return data.data.Media; // real anime data
+    return data.data.Media;
 }
 
 const animeSubmit = document.getElementById("anime-submit");
