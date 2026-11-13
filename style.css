@@ -849,32 +849,30 @@ body {
         gap: 12px 8px;
     }
 
-    .category {
-        position: fixed;
-        top: 20px;
-        left: 15px;
-        /* Sits all the way at the far left edge (adjust to 0px if you want zero gap) */
-        transform: translateX(0);
-        width: min(310px, calc(100% - 60px));
-        /* Leaves room for the bell on small screens */
-        margin: 0;
-        z-index: 1000;
+.category {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    width: min(310px, calc(100vw - 80px));
+    transform: translateX(12px); /* Resting spot on the far left */
+    margin: 0;
+    z-index: 1000;
+    will-change: transform;
+    
+    /* Animate ONLY transform with a smooth, zero-overshoot deceleration curve */
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+                background-color 0.35s ease,
+                box-shadow 0.35s ease;
+}
 
-        transition: left 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-            transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-            background-color 0.35s ease,
-            box-shadow 0.35s ease;
-    }
-
-    .category.is-centered {
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        width: min(310px, 100%);
-        background-color: rgba(20, 20, 25, 0.25);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-    }
+.category.is-centered {
+    /* Moves to the dead center of the viewport using transform only */
+    transform: translateX(calc(50vw - 50%)) !important;
+    background-color: rgba(20, 20, 25, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
 
 
     .switch {
