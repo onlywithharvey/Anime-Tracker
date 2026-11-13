@@ -67,6 +67,54 @@ const MEDIA_BY_ID_QUERY = `
 const TMDB_API_KEY = "49e59f8090b5106b0267f0d7b72d0841";
 const TMDB_BASE = "https://api.themoviedb.org/3";
 const TMDB_IMG = "https://image.tmdb.org/t/p/w500";
+const LAZY_PLACEHOLDER = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1' viewBox='0 0 1 1'></svg>");
+
+function attachLazyImageLoader(root = document) {
+    const images = root.querySelectorAll('img[data-lazy]');
+    if (!images.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+        images.forEach(img => {
+            if (img.dataset.lazy) img.src = img.dataset.lazy;
+            img.removeAttribute('data-lazy');
+        });
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries, observerInstance) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+
+            const img = entry.target;
+            const actualSrc = img.dataset.lazy;
+            if (actualSrc) {
+                img.src = actualSrc;
+            }
+
+            img.loading = 'lazy';
+            img.decoding = 'async';
+            img.removeAttribute('data-lazy');
+            observerInstance.unobserve(img);
+        });
+    }, { rootMargin: '180px 0px' });
+
+    images.forEach(img => observer.observe(img));
+}
+
+function hydrateLazyImages(root = document) {
+    const images = root.querySelectorAll('img');
+    images.forEach(img => {
+        if (!img.dataset.lazy && img.getAttribute('src') && img.getAttribute('src') !== LAZY_PLACEHOLDER) {
+            img.dataset.lazy = img.getAttribute('src');
+            img.setAttribute('src', LAZY_PLACEHOLDER);
+        }
+        if (img.dataset.lazy) {
+            img.loading = 'lazy';
+            img.decoding = 'async';
+        }
+    });
+    attachLazyImageLoader(root);
+}
 
 
 
@@ -111,8 +159,8 @@ window.addEventListener('load', () => {
         setTimeout(() => {
             pageLoader.classList.add('hidden');
             document.body.classList.remove('loading');
-            setTimeout(() => pageLoader.remove(), 700);
-        }, 900);
+            setTimeout(() => pageLoader.remove(), 100);
+        }, 300);
     }
 });
 
@@ -305,7 +353,7 @@ function createAnimeCard(anime) {
 
     card.innerHTML = `
     <div class="card-top">
-      <img class="anime-img" src="${image}" alt="${title}">
+      <img class="anime-img" src="${LAZY_PLACEHOLDER}" data-lazy="${image}" alt="${title}" loading="lazy" decoding="async">
       <div class="anime-middle">
         <div class="anime-info">
           <h3 class="anime-title">${title}</h3>
@@ -336,6 +384,7 @@ function createAnimeCard(anime) {
   `;
 
     listContent.appendChild(card);
+    attachLazyImageLoader(listContent);
 };
 
 function updateAllCountdowns() {
@@ -553,6 +602,7 @@ function loadData() {
     const savedData = localStorage.getItem("data");
     if (savedData !== null) {
         listContent.innerHTML = savedData;
+        hydrateLazyImages(listContent);
         listContent.querySelectorAll(".anime-card:not([data-airing-at])").forEach(card => {
             const episodeBadge = card.querySelector(".badge.episode");
             if (episodeBadge?.textContent === "Waiting for schedule") {
@@ -764,7 +814,7 @@ function createTvCard(show, tvMazeEpisode = null) {
 
     card.innerHTML = `
         <div class="card-top">
-            <img class="tv-img" src="${image}" alt="${title}">
+            <img class="tv-img" src="${LAZY_PLACEHOLDER}" data-lazy="${image || LAZY_PLACEHOLDER}" alt="${title}" loading="lazy" decoding="async">
             <div class="tv-middle">
                 <div class="tv-info">
                     <h3 class="tv-title">${title}</h3>
@@ -794,6 +844,7 @@ function createTvCard(show, tvMazeEpisode = null) {
         </div>`;
 
     tvListContent.appendChild(card);
+    attachLazyImageLoader(tvListContent);
     updateTvCountdowns();
 }
 
@@ -880,6 +931,7 @@ function loadTvData() {
     const saved = localStorage.getItem("tvTrackerData");
     if (saved) {
         tvListContent.innerHTML = saved;
+        hydrateLazyImages(tvListContent);
         updateTvCountdowns();
     }
 }
@@ -1027,7 +1079,7 @@ function createMangaCard(manga) {
 
     card.innerHTML = `
         <div class="card-top">
-            <img class="anime-img" src="${image}" alt="${title}">
+            <img class="anime-img" src="${LAZY_PLACEHOLDER}" data-lazy="${image || LAZY_PLACEHOLDER}" alt="${title}" loading="lazy" decoding="async">
             <div class="anime-middle">
                 <div class="anime-info">
                     <h3 class="anime-title">${title}</h3>
@@ -1048,6 +1100,7 @@ function createMangaCard(manga) {
         </div>`;
 
     mangaListContent.appendChild(card);
+    attachLazyImageLoader(mangaListContent);
 }
 
 function saveMangaData() {
@@ -1056,7 +1109,10 @@ function saveMangaData() {
 
 function loadMangaData() {
     const saved = localStorage.getItem("mangaTrackerData");
-    if (saved !== null) mangaListContent.innerHTML = saved;
+    if (saved !== null) {
+        mangaListContent.innerHTML = saved;
+        hydrateLazyImages(mangaListContent);
+    }
 }
 
 async function addMangaToTracker(manga) {
@@ -1162,3 +1218,78 @@ if (mangaListContent) {
     loadMangaData();
     showPopularManga();
 }
+
+const box = document.querySelector('.category');
+const scrollTrigger = 80;
+
+function handleScroll(e) {
+    if (!box) return;
+    const targetScroll = (e.target && typeof e.target.scrollTop === 'number') ? e.target.scrollTop : 0;
+    const scrollTop = Math.max(window.scrollY, targetScroll);
+
+    if (scrollTop > scrollTrigger) {
+        box.classList.add('is-centered');
+    } else {
+        box.classList.remove('is-centered');
+    }
+}
+document.addEventListener('scroll', handleScroll, true);
+
+let ticking = false;
+
+function updateCardAnimations() {
+    // Safely gather cards even if one of the variables isn't defined yet
+    const containers = [
+        typeof listContent !== 'undefined' ? listContent : null,
+        typeof tvListContent !== 'undefined' ? tvListContent : null,
+        typeof mangaListContent !== 'undefined' ? mangaListContent : null
+    ];
+
+    const cards = containers.flatMap(container => container ? Array.from(container.children) : []);
+    const viewportHeight = window.innerHeight;
+    let visibleBatch = 0;
+
+    cards.forEach((card) => {
+        card.classList.add('scroll-card');
+
+        const rect = card.getBoundingClientRect();
+        // Skip cards that have 0 height/width (hidden tabs)
+        if (rect.height === 0 && rect.width === 0) return;
+
+        const isVisible = card.classList.contains('is-visible');
+        const trueTop = isVisible ? rect.top : rect.top - 22;
+        const trueBottom = isVisible ? rect.bottom : rect.bottom - 22;
+        const inView = trueTop < viewportHeight - 10 && trueBottom > 10;
+
+        if (inView && !isVisible) {
+            card.style.setProperty('--stagger', `${visibleBatch * 65}ms`);
+            card.classList.add('is-visible');
+            visibleBatch++;
+        } else if (!inView && isVisible) {
+            card.style.setProperty('--stagger', '0ms');
+            card.classList.remove('is-visible');
+        }
+    });
+
+    ticking = false;
+}
+
+function onScroll() {
+    if (!ticking) {
+        window.requestAnimationFrame(updateCardAnimations);
+        ticking = true;
+    }
+}
+
+document.addEventListener('scroll', onScroll, true);
+window.addEventListener('resize', onScroll);
+
+// Also re-run whenever you click a category radio tab (Anime, TV Shows, Manga)
+document.querySelectorAll('input[name="category-toggle"]').forEach((radio) => {
+    radio.addEventListener('change', () => {
+        setTimeout(updateCardAnimations, 50);
+    });
+});
+
+// Run immediately on load
+updateCardAnimations();

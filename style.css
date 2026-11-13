@@ -458,8 +458,8 @@ body.theme-evening {
     left: 0;
     height: 90px;
     pointer-events: none;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
     mask-image: linear-gradient(to bottom, transparent, black 70%);
     -webkit-mask-image: linear-gradient(to bottom, transparent, black 70%);
 }
@@ -473,7 +473,21 @@ body.theme-evening {
     overflow-y: auto;
     height: calc(100vh - 220px);
     align-content: start;
+}
 
+.content>* {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0) scale(0.97);
+    transition: none;
+    will-change: opacity, transform;
+}
+
+.content>*.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--stagger, 0ms);
 }
 
 .anime-card,
@@ -722,7 +736,7 @@ body {
     inset: 0;
     display: grid;
     place-items: center;
-    background: linear-gradient(135deg, rgba(10, 16, 22, 0.45) 30%, rgba(0, 119, 216, 0.45) 60%, rgba(216, 14, 0, 0.45)  100%);
+    background: linear-gradient(135deg, rgba(10, 16, 22, 0.45) 30%, rgba(0, 119, 216, 0.45) 60%, rgba(216, 14, 0, 0.45) 100%);
     backdrop-filter: blur(40px);
     -webkit-backdrop-filter: blur(40px);
     z-index: 9999;
@@ -836,15 +850,32 @@ body {
     }
 
     .category {
-        grid-column: 2;
-        grid-row: 1;
-        width: min(310px, 100%);
-        justify-self: center;
         position: fixed;
+        top: 20px;
+        left: 15px;
+        /* Sits all the way at the far left edge (adjust to 0px if you want zero gap) */
+        transform: translateX(0);
+        width: min(310px, calc(100% - 60px));
+        /* Leaves room for the bell on small screens */
+        margin: 0;
         z-index: 1000;
-        margin-top: -95px;
-        margin-right: 21px;
+
+        transition: left 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+            transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+            background-color 0.35s ease,
+            box-shadow 0.35s ease;
     }
+
+    .category.is-centered {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: min(310px, 100%);
+        background-color: rgba(20, 20, 25, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+
 
     .switch {
         font-size: 14px;
@@ -955,7 +986,7 @@ body {
         max-height: none;
         display: flex;
         flex-direction: column;
-
+        padding: 0;
     }
 
     .card-top img {
@@ -985,6 +1016,7 @@ body {
         z-index: 1;
         display: flex;
         flex-direction: column;
+        padding: 8px;
     }
 
     .anime-title,
